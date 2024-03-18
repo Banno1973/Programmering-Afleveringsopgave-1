@@ -25,32 +25,30 @@ namespace Kortspil
             Uri uri = new (url, UriKind.Relative);
             BitmapImage image = new(uri);
            
-            Billede.Source = image;
-            
+            Billede.Source = image;   
         }
-
 
         private string FindBillede(int kortnummer)
         {
-            string kulør;
+            KortKulør? kulør;
             string kortnavn;
 
             switch (kortnummer)
             {
                 case (>= 1 and <= 13):
-                    kulør = "Spar";
+                    kulør = KortKulør.Spar;
                     break;
                 case (>= 14 and <= 26):
-                    kulør = "Ruder";
+                    kulør = KortKulør.Ruder;
                     break;
                 case (>= 27 and <= 39):
-                    kulør = "Klør";
+                    kulør = KortKulør.Klør;
                     break;
                 case (>= 40 and <= 52):
-                    kulør = "Hjerter";
+                    kulør = KortKulør.Hjerter;
                     break;
                 default:
-                    kulør = "Ukendt";
+                    kulør = null;
                     break;
             }
 
@@ -65,11 +63,11 @@ namespace Kortspil
                 case 12 or 25 or 38 or 51:
                     kortnavn = "Dame";
                     break;
-                case 13 or 26 or 39 or 51:
+                case 13 or 26 or 39 or 52:
                     kortnavn = "Konge";
                     break;
                 default:
-                    kortnavn = kortnummer / Enum.Parse(Farve, kulør);
+                    kortnavn = (kortnummer - (int)kulør * 13).ToString();
                     break;
             }
 
@@ -78,12 +76,12 @@ namespace Kortspil
             return resultat;
         }
 
-        public enum Farve   
+        public enum KortKulør   
         {
-            Spar = 1,
-            Ruder = 2,
-            Klør = 3,
-            Hjerter = 4
+            Spar = 0,
+            Ruder = 1,
+            Klør = 2,
+            Hjerter = 3
         };
     }
 }
